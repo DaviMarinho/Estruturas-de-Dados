@@ -1,25 +1,47 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-    int conta7(unsigned long int num, unsigned long int quantidade){
-        int resto = 0;
-        if(num > 0 ){
-            resto = num % 10;
-            if(resto==7)
-                quantidade++;
-            return conta7(num = (num - resto) / 10, quantidade);
+void printaX(int quantidadeX){
+    
+    if(quantidadeX == 0)
+        return;
+    else{
+        printf("x");
+        quantidadeX--;
+    }   
+    printaX(quantidadeX);
+}
+
+void moveX(char palavra[], char *palavra2, int j, int k, int quantidadeX){
+
+        if(palavra[j] != '\0'){
+            if(palavra[j] != 'x'){
+                palavra2[k] = palavra[j];
+                k++;
+            }
+            if(palavra[j] == 'x')
+                quantidadeX++;
+            j++;
+            moveX(palavra, palavra2, j, k, quantidadeX);
+        }else{
+            printf("%s", palavra2);
+            printaX(quantidadeX);
         }
-        return quantidade;
-    }
+}
 
 int main(){
-    unsigned long int numero = 0;
-    unsigned long int quantidade = 0;
+    char palavra[101];
+    char *palavra2;
+    int j = 0, k = 0;
+    int quantidadeX = 0;
 
-    scanf("%ld", &numero);
+    scanf("%[^\n]", palavra);
 
-    quantidade = conta7(numero, quantidade);
+    palavra2 = malloc(sizeof(char)*101);
+    
+    moveX(palavra, palavra2, j, k, quantidadeX);
 
-    printf("%ld\n", quantidade);
+    printf("\n");
 
     return 0;
 }
